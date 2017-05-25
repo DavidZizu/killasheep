@@ -120,7 +120,7 @@ def load_grid(world_state):
         world_state:    <object>    current agent world state
 
     Returns
-        grid:   <list>  the world grid blocks represented as a list of blocks (see Tutorial.pdf)
+        grid:   <list>  the world grid blocks represented as a list of blocks
     """
     while world_state.is_mission_running:
         time.sleep(0.1)
@@ -144,7 +144,7 @@ def load_entity_observations(world_state):
         world_state:    <object>    current agent world state
 
     Returns
-        obs:   <list>  the world grid blocks represented as a list of blocks (see Tutorial.pdf)
+        obs:   <list>  the world grid which represents the entities around yourself inclusively
     """
     while world_state.is_mission_running:
         time.sleep(0.1)
