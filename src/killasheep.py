@@ -144,7 +144,20 @@ def load_entity_observations(world_state):
         world_state:    <object>    current agent world state
 
     Returns
-        obs:   <list>  the world grid which represents the entities around yourself inclusively
+        obs:   <list>  the world grid which represents the entities around yourself inclusevly
+        (
+            e.g. sample obs with one entity {u'name': u'Sheep', u'yaw': -136.40625, u'pitch': 0.0, u'y': 207.0, u'x': 27.447916666666664, u'z': -8.416666666666668}
+            yaw: rotation around y axis
+            pitch: probably doesn't matter
+            y: vertical
+            x: ->
+            z:  |
+                V
+                    yaw=180
+            yaw=90          yaw=-90
+                    yaw=0
+
+        )
     """
     while world_state.is_mission_running:
         time.sleep(0.1)
