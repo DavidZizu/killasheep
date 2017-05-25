@@ -114,7 +114,7 @@ def getMissionXML(summary):
 
 def load_grid(world_state):
     """
-    Used the agent observation API to get a ...x... grid box around the agent (the agent is in the middle).
+    Used the agent grid map observation API to get a ...x... grid box around the agent (the agent is in the middle).
 
     Args
         world_state:    <object>    current agent world state
@@ -138,7 +138,7 @@ def load_grid(world_state):
 
 def load_entity_observations(world_state):
     """
-    Used the agent observation API to get a ...x... grid box around the agent (the agent is in the middle).
+    Used the agent entity observation API to get a ...x... grid box around the agent (the agent is in the middle).
 
     Args
         world_state:    <object>    current agent world state
