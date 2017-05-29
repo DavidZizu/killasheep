@@ -11,3 +11,5 @@ subtitle: 'CS 175: Project in AI (in Minecraft)'
 exclude:
 - README.md
 - LICENSE.md
+
+theme: jekyll-theme-hacker
