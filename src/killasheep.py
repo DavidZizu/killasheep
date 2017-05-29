@@ -4,6 +4,67 @@ import sys
 import time
 import random
 import json
+from math import sqrt
+from collections import defaultdict
+
+TURN_VELOCITY = 0.5
+
+class ReinforcementLearningModel:
+	def __init__(self, gamma=0.8):
+		self._q_table = defaultdict(dict)
+		self._previous_action = None
+		self._previous_state = None
+		self._gamma = gamma
+
+	def _get_sheep_distances(self, a):
+		#a = json.loads(obs)
+		#print type(a[0])
+		me = (0, 0)
+		sheeps = []
+		for x in a:
+			if x['name'].count('Killer') > 0:
+				me = (int(x['x']), int(x['y']))
+		for x in a:
+			if x['name'].count('Killer') == 0:
+				sheep = (x['x'], x['y'])
+				distance = sqrt((sheep[0] - me[0]) ** 2 + (sheep[1] - me[1]) ** 2)
+				if distance < 1:
+					sheeps.append(0)
+				elif distance < 10:
+					sheeps.append(1)
+				else:
+					sheeps.append(2)
+		return tuple(sorted(sheeps))	
+
+	def _select_action(self, q_raw, eps, actions):
+		a = min(q_raw.keys(), key=lambda x: q_raw[x])
+		return random.choice(actions) if random.random() < eps else random.choice([x for x in actions if q_raw[x] == q_raw[a]])
+
+	def _update_q_table(self, state):
+		if self._previous_state is None or self._previous_action is None:
+			return
+		self._q_table[self._previous_state][self._previous_action] += 100 * (len(state) < len(self._previous_state)) + self._gamma * (max(self._q_table[state].values()) if len(self._q_table[state]) != 0 else 0)
+
+	def get_action(self, obs):
+		state = self._get_sheep_distances(obs)
+		self._update_q_table(state)
+		actions = ['turn 45', 'turn 90', 'turn 135', 'turn 180', 'turn 225', 'turn 270', 'turn 315']
+		actions += ['move'] * len(actions)
+		if state[0] == 0:
+			actions.append('attack')
+		q_raw = self._q_table[state]
+		for action in actions:
+			if not action in q_raw:
+				q_raw[action] = 0
+		self._previous_action = self._select_action(q_raw, 0.2, actions)
+		self._previous_state = state
+		print self._previous_action
+		return self._previous_action
+
+	def restart(self):
+		self._q_table[self._previous_state][self._previous_action] += 1000
+		self._previous_action = None
+		self._previous_state = None
 
 sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)  # flush print output immediately
 
@@ -90,7 +151,7 @@ def getMissionXML(summary):
             <AgentStart>
                 <Placement x="0" y="207" z="0"/>
                 <Inventory>
-                    <InventoryItem slot="1" type="diamond_sword"/>
+                    <InventoryItem slot="0" type="diamond_sword"/>
                 </Inventory>
             </AgentStart>
             <AgentHandlers>
@@ -172,6 +233,43 @@ def load_entity_observations(world_state):
             break
     return obs
 
+def get_yaw(world_state):
+    while world_state.is_mission_running:
+        time.sleep(0.1)
+        world_state = agent_host.getWorldState()
+        if len(world_state.errors) > 0:
+            raise AssertionError('Could not load grid.')
+        if world_state.number_of_observations_since_last_state > 0:
+            observations = json.loads(world_state.observations[-1].text)
+            entities = observations.get(u'EntityObservations', 0)
+            for entity in observations.get(u'EntityObservations', 0):
+                if entity.get(u'name', 0) == u'Fucking Sheep Killer':
+                    return entity.get(u'yaw')
+
+def turn(agent_host, degrees):
+    yaw = int(get_yaw(agent_host.getWorldState()))
+    final_yaw = yaw + degrees
+    direction = 1
+    if final_yaw >= 360:
+        final_yaw -= 360
+        direction = -1
+    while yaw < final_yaw if direction == 1 else yaw > final_yaw:
+        agent_host.sendCommand('turn ' + str(direction*TURN_VELOCITY))
+        yaw = int(get_yaw(agent_host.getWorldState()))
+    agent_host.sendCommand('turn 0')
+
+def perform_action(agent_host, action, prev_action):
+    if prev_action:
+        agent_host.sendCommand(prev_action + ' 0')
+    action_parsed = action.split(' ')
+    if action_parsed[0] == 'turn':
+        turn(agent_host, int(action_parsed[1]))
+    elif action_parsed[0] == 'move':
+        agent_host.sendCommand('move 1')
+    else:
+        agent_host.sendCommand('attack')
+    return action_parsed[0]
+
 agent_host = MalmoPython.AgentHost()
 
 try:
@@ -184,8 +282,11 @@ if agent_host.receivedArgument("help"):
     print agent_host.getUsage()
     exit(0)
 
+
 my_mission = MalmoPython.MissionSpec(getMissionXML('Kill Fucking Sheep'), True)
 my_mission_record = MalmoPython.MissionRecordSpec()
+my_mission.requestVideo(800, 500)
+my_mission.setViewpoint(1)
 
 # Attempt to start a mission:
 max_retries = 3
@@ -213,6 +314,10 @@ while not world_state.has_mission_begun:
 print
 print "Mission running ",
 
+model = ReinforcementLearningModel()
+
+count = 0
+prev_action = None
 # Loop until mission ends:
 while world_state.is_mission_running:
     sys.stdout.write(".")
@@ -220,7 +325,10 @@ while world_state.is_mission_running:
     world_state = agent_host.getWorldState()
     #grid = load_grid(world_state)                       #returns a grid map
     obs = load_entity_observations(world_state)
-    print obs
+    action = model.get_action(obs)
+    prev_action = perform_action(agent_host, action, prev_action)
+    time.sleep(0.1)
+    world_state = agent_host.getWorldState()
     for error in world_state.errors:
         print "Error:",error.text
 
