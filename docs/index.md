@@ -3,7 +3,7 @@ layout: default
 title:  Home
 ---
 
-# Goal #
+## Goal ##
 
 This is the AI for Minecraft that kills sheeps in Minecraft
 
