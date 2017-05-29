@@ -22,7 +22,7 @@ This is the AI for Minecraft that kills sheeps in Minecraft
 
 ## Team
 
-[![David Gogokhiya](https://gogokhiya.com/tmp/my_image.jpg =256x256)](https://github.com/DavidZizu) | [![Dmitry Torba](https://torba.me/images/photo.jpg =256x256)](https://github.com/dtorba)
+[![David Gogokhiya](https://gogokhiya.com/tmp/my_image.jpg](https://github.com/DavidZizu){:height="256px" width="256px"} | [![Dmitry Torba](https://torba.me/images/photo.jpg)](https://github.com/dtorba){:height="256px" width="256px"}
 ---|---
 David Gogokhiya | Dmitry Torba
 
