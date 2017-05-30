@@ -15,7 +15,7 @@ This is the AI for Minecraft that kills sheeps in Minecraft
 
 ---
 
-[<img src="https://gogokhiya.com/tmp/no_sheep.jpg" width="256px" height="256px" />
+[<img src="https://gogokhiya.com/tmp/no_sheep.jpg" />
 
 ---
 
