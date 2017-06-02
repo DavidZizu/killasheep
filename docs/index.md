@@ -21,11 +21,8 @@ This is the AI for Minecraft that kills sheeps in Minecraft
 
 ### Click on the image to watch a video ###
 
-<iframe width="560" height="315" src="https://youtu.be/1QiUOO8TrLw" frameborder="0" allowfullscreen /></iframe>
+<iframe width="560" height="315" src="https://youtu.be/1QiUOO8TrLw&output=embed" frameborder="0" allowfullscreen /></iframe>
 <!-- [![Alt text](https://gogokhiya.com/tmp/youtube.png)](https://youtu.be/1QiUOO8TrLw) -->
-
-## Video of Full Run
-<iframe width="854" height="480" src="https://www.youtube.com/embed/fx8xDqEMQd0" frameborder="0" allowfullscreen></iframe>
 
 ---
 
