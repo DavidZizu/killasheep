@@ -11,7 +11,9 @@ This is the AI for Minecraft that kills sheeps in Minecraft
 
 ## Link to the source code ##
 
-- [Github](https://github.com/DavidZizu/killasheep)
+<iframe width="560" height="315" src="https://github.com/DavidZizu/killasheep" frameborder="0" allowfullscreen> </iframe>
+
+<!-- - [Github](https://github.com/DavidZizu/killasheep) -->
 
 ---
 
