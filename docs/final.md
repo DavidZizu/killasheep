@@ -3,7 +3,7 @@ layout: default
 title:  Final
 ---
 
-##Project Summary
+## Project Summary
 
 The goal of our project, although changed a couple of times, may be summarized as exploring various ways in which an actor can kill a sheep in Minecraft. We have separated this task in two subtasks: the first was to make an agent kill all the sheeps as quick as possible with it knowing the locations of the sheeps and the other was to kill the sheeps (although possible not optimally) with the agent only seeing the world as the player would.
 
@@ -13,15 +13,15 @@ The second subtask was to do the same, but with agent not seeing the entire fiel
 
 
 
-##Approaches
+## Approaches
 
-###First sub-problem
+### First sub-problem
 
 For our first sub-problem we have used q-learning. The state in q-table is a tuple, which length equals to the number of live sheep on the field. Each element is the distance between the agent and the sheep quantified in the three categories - very close, close and quite far. For example, if there were four sheeps on the field and one was close and the rest were quite far, the state would be (close, far, far, far). The actions available are choose_sheep_1, choose_sheep_2, choose_sheep_3, ..., choose_sheep_n for n sheeps. Once the agent has picked a sheep, he deterministically (or without any machine learning) moves towards it, depending on the angle between agent's current direction and the sheep and the distance or hits it. After this action is completed, the agent gets rewarded (+100) if one sheep was killed in a previous action and punished (-2) if the action was performed and the sheep was not killed. This reward system is supposed to reinforce killing the sheep and punish switching the target all the time and just wandering around as the result.
 
 That is quite an improvement from the version that we have submitted for our report, which had way to many states (27^n, where n is a number of sheeps) and thus never actually learned. Moreover, our previous version had (move, hit, turn 45 degrees, turn 90 degrees, turn 125 degrees, ...) as a set of action, which created way to many possible scenarios and made it impossible for an agent to "figure out" what it needs to do.
 
-###Second sub-problem
+### Second sub-problem
 
 For our second sub-problem we indented to divide the image that is displayed on the screen by Minecraft and cut it into 9 equal squares (in a 3x3 grid) (from now on I am going to call each of these squares a "little square"). Then, we would use a bag of models (several predictors) to estimate where there is a sheep in this square. We used supervised training and trained our model on 200 little squares that contained the part of the sheep and 200 little squares that did not. We then have tested the precision of the model on the total of 25 little squares with a sheep and 25 without one and estimated the precision of each of our trained model.
 
@@ -31,9 +31,9 @@ We have used scikit-learn in order to get off-the-shelf classifier in order not 
 
 
 
-##Evaluation
+## Evaluation
 
-###First sub-problem
+### First sub-problem
 
 We have used q-learning in order to train our agent perform well in the conditions described above. The obvious measure of the performance is the time it took to kill all the sheeps on the field. The following graph represents the average time it took to kill 2 sheeps on a field over 5 consequent attempts (i.e. f(x=1) = average time of attempts 1 to 5, f(x=2) = average time of attempts 5-10, etc.)
 
@@ -48,12 +48,18 @@ There is an obvious trend toward reducing the time it took to kill a sheep in a 
 
 The only reasonable measure of success we can think of is the rate of our system being correct on some sample test (we have used 100 test pictures, 50 positive and 50 negative). The total bag was correct on 90% of our testing pictures. However, we could not properly estimate the sheep location so that we know when to hit; thus on the video it is not possible to see the agent actually hit the sheep, but it is clearly possible to see it follow one (although not as closely as we wish it did, which may be because of insufficient size of training set and human bias towards what constitutes a presence of the sheep in a little square (is part of the sheep good enough?)).
 
-
-##Video
+## Video
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/1QiUOO8TrLw?ecver=1" frameborder="0" allowfullscreen></iframe>
 
-##References
+## Images
+<img src="https://files.torba.me/1.png"/>
+
+
+<img src="https://files.torba.me/2.png"/>
+
+
+## References
 
 We have used multiple on-line resources to learn about models and to figure out whether our models were appropriate for the task. Here are the resources we used:
 
