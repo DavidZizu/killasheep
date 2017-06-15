@@ -50,7 +50,7 @@ The only reasonable measure of success we can think of is the rate of our system
 
 ## Video
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/1QiUOO8TrLw?ecver=1" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/L6iBAzvjLDU" frameborder="0" allowfullscreen></iframe>
 
 ## Images
 <img src="https://files.torba.me/1.png"/>
