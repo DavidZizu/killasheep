@@ -23,8 +23,7 @@ This is the AI for Minecraft that kills sheeps in Minecraft
 =======
 ### Click on the image to watch a video ###
 
->>>>>>> 3532d2c0e4b436791110077210c16677da6ba7c9
-<iframe width="560" height="315" src="https://www.youtube.com/embed/1QiUOO8TrLw?ecver=1" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/L6iBAzvjLDU" frameborder="0" allowfullscreen></iframe>
 
 ---
 
